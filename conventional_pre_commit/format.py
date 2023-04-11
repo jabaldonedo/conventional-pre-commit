@@ -20,12 +20,6 @@ def r_types(types):
     """Join types with pipe "|" to form regex ORs."""
     return "|".join(types)
 
-
-def r_scope():
-    """Regex str for an optional (scope)."""
-    return r"(\([\w\d# \/:-]+\))?"
-
-
 def r_delim():
     """Regex str for optional breaking change indicator and colon delimiter."""
     return r"!?:"
@@ -51,7 +45,7 @@ def is_conventional(input, types=DEFAULT_TYPES):
     Optionally provide a list of additional custom types.
     """
     types = conventional_types(types)
-    pattern = f"^({r_types(types)}){r_scope()}{r_delim()}{r_subject()}$"
+    pattern = f"^({r_types(types)})(\([\w\d# \/:-]+\))?{r_delim()}{r_subject()}$"
     regex = re.compile(pattern, re.DOTALL)
 
     return bool(regex.match(input))
